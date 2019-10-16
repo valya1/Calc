@@ -25,8 +25,14 @@ public class Calculator {
     private JButton buttonMult;
     private JButton buttonPlus;
     private JButton buttonRemove;
+    private JTextField resultTextField;
+
+    private CalculationLogic calculationLogic;
 
     public Calculator() {
+
+        calculationLogic = new CalculationLogic();
+
         List<JButton> calcButtons = Arrays.asList(
                 button0,
                 button4,
@@ -52,11 +58,17 @@ public class Calculator {
         buttonRemove.addActionListener(__ -> calcField.setText(calcField.getText()
                 .substring(
                         0,
-                        calcField.getText()
-                                .length() - 1
+                        calcField.getText().length() - 1
                 )));
 
-        buttonTotal.addActionListener(__ -> startCalculationLogic(calcField.getText()));
+        buttonTotal.addActionListener(__ -> {
+
+            try {
+                resultTextField.setText(String.valueOf(calculationLogic.calculate(calcField.getText())));
+            } catch (Exception ex) {
+                resultTextField.setText(ex.getMessage());
+            }
+        });
     }
 
     private void createUIComponents() {
